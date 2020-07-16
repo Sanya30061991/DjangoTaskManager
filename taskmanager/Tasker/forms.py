@@ -1,12 +1,13 @@
-from .models import Tasks, Users
+from .models import Tasks
 from django.forms import ModelForm, TextInput
+from django.contrib.auth.models import User
 
 class UsersForm(ModelForm):
     class Meta:
-        model = Users
-        fields = ['login', 'password']
+        model = User
+        fields = ['username', 'password']
         widgets = {
-            'login': TextInput(attrs={
+            'username': TextInput(attrs={
                 'type':"email",
                  'id':"inputEmail",
                   'class':"form-control",

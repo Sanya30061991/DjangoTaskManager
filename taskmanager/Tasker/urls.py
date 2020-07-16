@@ -6,5 +6,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('register', views.index, name='reg'),
     path('tasks',views.show, name = 'main'),
-    path('add-task', views.finished, name = 'create')
+    path('add-task', views.finished, name = 'create'),
+    path('login', views.glue, name="loogg")
 ]
