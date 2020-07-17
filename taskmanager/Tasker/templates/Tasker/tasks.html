@@ -61,13 +61,21 @@
   </header>
   {% if tasks%}
   {% for el in tasks %}
-    <div class = "alert alert-warning mt-2">
+  {%if el.fin == '0' %}
+    <div class = "alert alert-info mt-2">
       <h3>{{el.title}}</h3>
       <p>{{el.desc}}</p>
     </div>
+  {%endif%}
+  {%if el.fin == '1' %}
+  <div class = "alert alert-warning mt-2">
+    <h3>{{el.title}}(Finished)</h3>
+    <p>{{el.desc}}</p>
+  </div>
+  {%endif%}
   {% endfor %}
   {%else%}
-    <div class = "alert alert-warning mt-2">
+    <div class = "alert alert-danger mt-2">
         <h3>There is no unfinished Tasks!</h3>
     </div>
   {%endif%}

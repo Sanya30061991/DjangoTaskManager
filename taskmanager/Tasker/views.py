@@ -19,9 +19,10 @@ def finished(request):
         'errors': []
     }
     if request.method == "POST":
-        request.POST['user_id']=str(request.user.id)
-        request.POST['fin']=str(0)
-        form = TaskForm(request.POST)
+        deect = request.POST.copy()
+        di1 = {'user_id':request.user.id}
+        deect.update(di1)
+        form = TaskForm(deect)
         form.save()
         return redirect('main')
     else:

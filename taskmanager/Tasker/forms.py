@@ -29,8 +29,12 @@ class UsersForm(ModelForm):
 class TaskForm(ModelForm):
     class Meta: 
         model = Tasks
-        fields = ['title', 'desc']
+        fields = ['user_id','title', 'desc','fin']
         widgets = {
+            'user_id': TextInput(attrs={
+                'type':'hidden',
+                'value':''
+            }),
             'title': TextInput(attrs={
                 'type':"text",
                 'class':"form-control",
@@ -42,5 +46,9 @@ class TaskForm(ModelForm):
                 'class':"form-control",
                 'id':"formGroupExampleInput2",
                 'placeholder':"Description of the task",
-            })
+            }),
+            'fin': TextInput(attrs={
+                'type':'hidden',
+                'value':'0'
+            }),
         }
