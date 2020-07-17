@@ -55,7 +55,7 @@
       <nav class="nav nav-masthead justify-content-center">
         <a class="nav-link active" href="tasks">Not Finished</a>
         <a class="nav-link" href="add-task">Add task</a>
-        <a class="nav-link" href="register">Log Out</a>
+        <a class="nav-link" href="logout-exec">Log Out</a>
       </nav>
     </div>
     <br>
@@ -84,13 +84,6 @@
         {{form.fin}}
         <br>
         <button type="submit" class="btn btn-success">Create</button>
-        {% if errors%}
-        {%for el in errors%}
-        <span class="blockquote-footer">
-        {{el}}
-        </span>
-        {%endfor%}
-        {%endif%}
       </form>
       </div>
   </header>

@@ -55,7 +55,7 @@
       <nav class="nav nav-masthead justify-content-center">
         <a class="nav-link active" href="tasks">Not Finished</a>
         <a class="nav-link" href="add-task">Add Task</a>
-        <a class="nav-link" href="register">Log Out</a>
+        <a class="nav-link" href="logout-exec">Log Out</a>
       </nav>
     </div>
   </header>
@@ -63,12 +63,22 @@
   {% for el in tasks %}
   {%if el.fin == '0' %}
     <div class = "alert alert-info mt-2">
+      <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class = "btn btn-danger" name= 'del' value = {{el.id}}>DELETE</button><br>
+        <button type="submit" class = "btn btn-primary" name = 'fin' value = {{el.id}}>FINISH</button>
+      </form>
       <h3>{{el.title}}</h3>
       <p>{{el.desc}}</p>
     </div>
   {%endif%}
   {%if el.fin == '1' %}
   <div class = "alert alert-warning mt-2">
+    <form method="POST">
+      {% csrf_token %}
+      <button type="submit" class = "btn btn-danger" name= 'del' value = {{el.id}}>DELETE</button><br>
+      <button type="submit" class = "btn btn-success" name = 'fin' value = {{el.id}}>CONTINUE</button>
+    </form>
     <h3>{{el.title}}(Finished)</h3>
     <p>{{el.desc}}</p>
   </div>
@@ -80,6 +90,7 @@
     </div>
   {%endif%}
 </div>
+<p>{{d}}</p>
 
 
 <!----></body>

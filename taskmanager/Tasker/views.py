@@ -2,21 +2,33 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.models import User, UserManager
 from .models import Tasks
 from .forms import UsersForm, TaskForm
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm
 # Create your views here.
-
+def loggone(request):
+    logout(request)
+    return redirect('loogg')
 
 def show(request):
+    if request.method=="POST" and 'del' in request.POST:
+        task = Tasks.objects.get(id=int(request.POST['del']))
+        task.delete()
+    elif request.method=="POST" and 'fin' in request.POST:
+        task = Tasks.objects.get(id=int(request.POST['fin']))
+        if task.fin=="0":
+            task.fin =  "1"
+            task.save()
+        elif task.fin =="1":
+            task.fin = '0'
+            task.save()
     tasks = Tasks.objects.filter(user_id=str(request.user.id))
-    return render(request, 'Tasker/tasks.html', {'tasks':tasks, 'id':request.user.id})
+    return render(request, 'Tasker/tasks.html', {'tasks':tasks})
 
 
 def finished(request):
     form = TaskForm()
     context = {
         'form':form,
-        'errors': []
     }
     if request.method == "POST":
         deect = request.POST.copy()
@@ -26,7 +38,6 @@ def finished(request):
         form.save()
         return redirect('main')
     else:
-        context['errors'].append("Method = GET")
         return render(request, 'Tasker/add-task.html', context)
 
 
