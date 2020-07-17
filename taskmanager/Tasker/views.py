@@ -1,19 +1,32 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.models import User, UserManager
 from .models import Tasks
-from .forms import UsersForm
+from .forms import UsersForm, TaskForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 # Create your views here.
 
 
 def show(request):
-    tasks = Tasks.objects.filter(user_id=str( ))
-    return render(request, 'Tasker/tasks.html', {'tasks':tasks})
+    tasks = Tasks.objects.filter(user_id=str(request.user.id))
+    return render(request, 'Tasker/tasks.html', {'tasks':tasks, 'id':request.user.id})
 
 
 def finished(request):
-    return render(request, 'Tasker/add-task.html')
+    form = TaskForm()
+    context = {
+        'form':form,
+        'errors': []
+    }
+    if request.method == "POST":
+        request.POST['user_id']=str(request.user.id)
+        request.POST['fin']=str(0)
+        form = TaskForm(request.POST)
+        form.save()
+        return redirect('main')
+    else:
+        context['errors'].append("Method = GET")
+        return render(request, 'Tasker/add-task.html', context)
 
 
 def glue(request):
@@ -25,13 +38,13 @@ def glue(request):
     if request.method=="POST":
         username = request.POST['username']
         password = request.POST['password']
-        user = authenticate(username=username, password=password)
-        # if user is not None:
-        #     login(request, user)
-        #     return redirect('main')   
-        # else:
-        context['errors'].append(user)
-        return render(request, 'Tasker/login.html', context)
+        user = User.objects.get(username=username)
+        if user is not None and password==user.password and username==user.username:
+            login(request, user)
+            return redirect('main')
+        elif user is not None or user!=user.password:
+            context['errors'].append("Invalid login or password.")
+            return render(request, 'Tasker/login.html', context)
     else:
         return render(request, 'Tasker/login.html', context)
 

@@ -54,10 +54,43 @@
       <h3 class="masthead-brand">TO DO LIST:</h3>
       <nav class="nav nav-masthead justify-content-center">
         <a class="nav-link active" href="tasks">Not Finished</a>
-        <a class="nav-link" href="add-task">Finished</a>
+        <a class="nav-link" href="add-task">Add task</a>
         <a class="nav-link" href="register">Log Out</a>
       </nav>
     </div>
+    <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+    <div class="form-group">
+      <form method="POST">
+        {% csrf_token %}
+        <label for="formGroupExampleInput">Title of the Task</label>
+        {{form.title}}
+      </div>
+      <div class="form-group">
+        <label for="formGroupExampleInput2">Description of the task</label>
+        {{form.desc}}
+        <br>
+        <button type="submit" class="btn btn-success">Create</button>
+        {% if errors%}
+        {%for el in errors%}
+        <span class="blockquote-footer">
+        {{el}}
+        </span>
+        {%endfor%}
+        {%endif%}
+      </form>
+      </div>
   </header>
   
 
